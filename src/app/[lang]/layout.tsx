@@ -2,10 +2,20 @@ import {NextIntlClientProvider, hasLocale} from 'next-intl';
 import {notFound} from 'next/navigation';
 import {routing} from '@/i18n/routing';
 import React, {ReactNode} from "react";
+import {AntdRegistry} from "@ant-design/nextjs-registry";
+
+import Navbar from "@/components/Navbar";
+import '../globals.css';
+
+import { AR_One_Sans } from 'next/font/google'
 
 export interface LayoutProps {
      lang: string
 }
+
+const arOneSans = AR_One_Sans({
+    subsets: ['latin', 'vietnamese']
+});
 
 export default async function LocaleLayout({ children, params }: Readonly<{children: ReactNode, params: Promise<LayoutProps>}>) {
     // Ensure that the incoming `locale` is valid
@@ -15,9 +25,14 @@ export default async function LocaleLayout({ children, params }: Readonly<{child
     }
 
     return (
-        <html lang={lang}>
+        <html lang={lang} className={arOneSans.className}>
             <body>
-                <NextIntlClientProvider>{children}</NextIntlClientProvider>
+                <NextIntlClientProvider>
+                    <AntdRegistry>
+                        <Navbar />
+                        {children}
+                    </AntdRegistry>
+                </NextIntlClientProvider>
             </body>
         </html>
     );
