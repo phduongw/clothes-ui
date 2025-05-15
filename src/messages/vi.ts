@@ -7,6 +7,18 @@ const messages = {
       blog: "Bài viết",
       search: "Tìm kiếm"
     },
+    register: {
+      title: 'Đăng kí',
+      fullName: 'Họ và tên',
+      email: 'Email',
+      dob: 'Ngày sinh',
+      gender: 'Giới tính',
+      genderMale: 'Nam',
+      genderFemale: 'Nữ',
+      phoneNumber: 'Số điện thoại',
+      password: 'Mật khẩu',
+      repeatPassword: 'Nhập lại mặt khẩu',
+    },
     title: "Chào mừng bạn đến với Clothes World",
     content: "Chọn mọi thứ bạn thích",
     auth: {

@@ -1,7 +1,8 @@
-import React, {FC} from 'react';
+import React, { FC } from 'react';
 
 import {AuthMode, SearchParamsLogin} from "@/types/searchParamsLogin";
 import {notFound} from "next/navigation";
+import RegisterForm from "@/components/RegisterForm";
 
 const AuthenticationPage: FC<{ searchParams: Promise<SearchParamsLogin> }> = async ({ searchParams }) => {
     const modeQuery = (await searchParams).mode;
@@ -15,10 +16,7 @@ const AuthenticationPage: FC<{ searchParams: Promise<SearchParamsLogin> }> = asy
     }
 
     return (
-        <div>
-            <h1>Login Page</h1>
-            <p>Mode: {mode}</p>
-        </div>
+        <RegisterForm />
     );
 };
 
