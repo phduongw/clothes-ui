@@ -1,8 +1,7 @@
-'use server';
-
 import { BaseResponse } from "@/types/BaseResponse";
+import {Dayjs} from "dayjs";
 
-interface IRegisterState {
+export interface IRegisterState {
     dob: string;
     fullName: string;
     email: string;
@@ -17,12 +16,12 @@ interface ILoginState {
 
 export interface IErrorMessages {
   errors: string[] | string;
-};
+}
 
 export interface FormDataRegisterFields {
     fullName: string;
     email: string;
-    dob: string;
+    dob: Dayjs | string;
     gender: string;
     phoneNumber: string;
     password: string;
@@ -34,9 +33,7 @@ export interface FormDataLoginFields {
     password: string;
 }
 
-export const register = async (formData: FormData) => {
-    const dataRequest = Object.fromEntries(formData.entries()) as unknown as FormDataRegisterFields;
-
+export const register = async (formData: FormDataRegisterFields): Promise<IRegisterState> => {
     const {
         fullName,
         email,
@@ -45,44 +42,34 @@ export const register = async (formData: FormData) => {
         phoneNumber,
         password,
         repeatPassword,
-    } = dataRequest;
+    } = formData;
 
-    try {
-        const response = await fetch('http://localhost:8828/auth/signup', {
-            method: 'POST',
-            body: JSON.stringify({
-                fullName,
-                email,
-                dob,
-                gender,
-                phoneNumber,
-                password,
-                repeatPassword
-            }),
-            headers: {
-                'Content-Type': 'application/json'
-            }
-        });
-        if (!response.ok) {
-            return {
-                errors: 'Register failed'
-            }
+    const response = await fetch('http://localhost:8828/auth/signup', {
+        method: 'POST',
+        body: JSON.stringify({
+            fullName,
+            email,
+            dob,
+            gender,
+            phoneNumber,
+            password,
+            repeatPassword
+        }),
+        headers: {
+            'Content-Type': 'application/json'
         }
-        const data = await response.json() as unknown as BaseResponse<IRegisterState>;
-        if ( data.status.code !== 200) {
-            return {
-                errors: data.status.message
-            }
-        }
-
-        return data.data;
-    } catch (error) {
-        console.log(error)
-
-        return {
-            errors: 'Server error'
-        }
+    });
+    if (!response.ok) {
+        throw new Error('Register failed');
     }
+
+    const data = await response.json() as unknown as BaseResponse<IRegisterState>;
+    console.log("Register response", data)
+    if ( data.status.code !== 200 || !data.data) {
+        throw new Error(data.status.message);
+    }
+
+    return data.data;
 }
 
 export const login = async (prevState: BaseResponse<ILoginState>, formData: FormData) => {

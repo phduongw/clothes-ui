@@ -7,33 +7,39 @@ import {AntdRegistry} from "@ant-design/nextjs-registry";
 import Navbar from "@/components/Navbar";
 import '../globals.css';
 
-import { AR_One_Sans } from 'next/font/google'
+import {AR_One_Sans} from 'next/font/google'
+import TanStackProvider from "@/components/common/providers/TanStackProvider";
 
 export interface LayoutProps {
-     lang: string
+    lang: string
 }
 
 const arOneSans = AR_One_Sans({
     subsets: ['latin', 'vietnamese']
 });
 
-export default async function LocaleLayout({ children, params }: Readonly<{children: ReactNode, params: Promise<LayoutProps>}>) {
+export default async function LocaleLayout({children, params}: Readonly<{
+    children: ReactNode,
+    params: Promise<LayoutProps>
+}>) {
     // Ensure that the incoming `locale` is valid
-    const { lang } = await params
+    const {lang} = await params
     if (!hasLocale(routing.locales, lang)) {
         notFound();
     }
 
     return (
-        <html lang={lang} className={arOneSans.className}>
-            <body>
-                <NextIntlClientProvider>
-                    <AntdRegistry>
-                        <Navbar />
-                        {children}
-                    </AntdRegistry>
-                </NextIntlClientProvider>
-            </body>
-        </html>
+        <TanStackProvider>
+            <html lang={lang} className={arOneSans.className}>
+                <body>
+                    <NextIntlClientProvider>
+                        <AntdRegistry>
+                            <Navbar/>
+                            {children}
+                        </AntdRegistry>
+                    </NextIntlClientProvider>
+                </body>
+            </html>
+        </TanStackProvider>
     );
 }
