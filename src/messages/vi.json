@@ -1,5 +1,11 @@
 {
   "home": {
+    "nav": {
+      "home": "Trang chủ",
+      "about": "Về chúng tôi",
+      "contactUs": "Liên hệ",
+      "blog": "Bài viết"
+    },
     "title": "Chào mừng bạn đến với Clothes World",
     "content": "Chọn mọi thứ bạn thích"
   },

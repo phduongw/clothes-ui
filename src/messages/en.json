@@ -1,5 +1,11 @@
 {
   "home": {
+    "nav": {
+      "home": "Home",
+      "about": "About",
+      "contactUs": "Contact Us",
+      "blog": "Blog"
+    },
     "title": "Welcome to Clothes World",
     "content": "Choose Everything you want"
   },

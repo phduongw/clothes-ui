@@ -1,11 +1,26 @@
-import React from 'react';
+import React, { FC } from 'react';
 
-const AuthenticationPage = () => {
-    return (
-        <div>
+import {AuthMode, SearchParamsLogin} from "@/types/searchParamsLogin";
+import {notFound} from "next/navigation";
+import RegisterForm from "@/components/auth/RegisterForm";
+import LoginForm from "@/components/auth/LoginForm";
 
-        </div>
-    );
+const AuthenticationPage: FC<{ searchParams: Promise<SearchParamsLogin> }> = async ({ searchParams }) => {
+    const modeQuery = (await searchParams).mode;
+
+    let mode: AuthMode;
+    const validQuery: [AuthMode, AuthMode] = ['login', 'register'];
+    if (modeQuery && validQuery.includes(modeQuery)) {
+        mode = modeQuery;
+    } else {
+        notFound()
+    }
+
+    const content = mode === 'login' ? <LoginForm /> : <RegisterForm />
+
+    return <div>
+        {content}
+    </div>;
 };
 
 export default AuthenticationPage;
