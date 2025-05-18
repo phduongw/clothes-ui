@@ -60,50 +60,38 @@ export const register = async (formData: FormDataRegisterFields): Promise<IRegis
         }
     });
     if (!response.ok) {
-        throw new Error('Register failed');
+        throw new Error('CW-10-001');
     }
 
     const data = await response.json() as unknown as BaseResponse<IRegisterState>;
     console.log("Register response", data)
     if ( data.status.code !== 200 || !data.data) {
-        throw new Error(data.status.message);
+        throw new Error(data.status.errorCode);
     }
 
     return data.data;
 }
 
-export const login = async (prevState: BaseResponse<ILoginState>, formData: FormData) => {
-    const dataRequest = Object.fromEntries(formData.entries()) as unknown as FormDataLoginFields;
-    const { email, password } = dataRequest;
+export const login = async (formData: FormDataLoginFields) => {
+    const { email, password } = formData;
 
-    try {
-        const response = await fetch('http://localhost:8828/auth/login', {
-            method: 'POST',
-            body: JSON.stringify({
-                email,
-                password
-            }),
-            headers: {
-                'Content-Type': 'application/json'
-            }
-        });
-        if (!response.ok) {
-            return {
-                errors: 'Login failed'
-            }
+    const response = await fetch('http://localhost:8828/auth/login', {
+        method: 'POST',
+        body: JSON.stringify({
+            email,
+            password
+        }),
+        headers: {
+            'Content-Type': 'application/json'
         }
-        const data = await response.json() as unknown as BaseResponse<ILoginState>;
-        if ( data.status.code !== 200) {
-            return {
-                errors: data.status.message
-            }
-        }
-
-        return data;
-    } catch (error) {
-        console.log(error)
-        return {
-            errors: 'Server error'
-        }
+    });
+    if (!response.ok) {
+        throw new Error('CW-10-001');
     }
+    const data = await response.json() as unknown as BaseResponse<ILoginState>;
+    if ( data.status.code !== 200) {
+        throw new Error(data.status.errorCode);
+    }
+
+    return data.data;
 };

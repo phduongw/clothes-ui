@@ -1,5 +1,9 @@
 const messages = {
   home: {
+    phones: 'Phones',
+    smartsWatches: 'Smart Watches',
+    cameras: 'Cameras',
+    headPhone: 'Headphones',
     nav: {
       home: 'Home',
       about: 'About',
@@ -18,6 +22,13 @@ const messages = {
       phoneNumber: 'Phone Number',
       password: 'Password',
       repeatPassword: 'Repeat Password',
+      login: 'Login with existing account'
+    },
+    login: {
+      title: 'Login',
+      email: 'Email',
+      password: 'Password',
+      register: 'Is this your first time? Sign up for an account right here!'
     },
     title: 'Welcome to Clothes World',
     content: 'Choose Everything you want',
@@ -25,6 +36,26 @@ const messages = {
       login: "Login",
       register: "Register"
     },
+  },
+  msg: {
+    requiredInput: {
+      auth: {
+        fullName: "Please enter your full name",
+        emailInvalid: "This is not a valid email address",
+        emailIsEmpty: "Please enter your email address",
+        passwordIsEmpty: "Please, enter your password",
+        passwordShort: "Password must be at least 8 characters",
+        repeatPassword: "Please, enter repeat password",
+        repeatPasswordNotMatch: "Repeat Password is not match with password",
+        gender: "Please select your gender",
+        dob: "Please select your Date of Birth",
+        phoneNumber: "Please enter your phone number",
+      }
+    },
+    error: {
+      'CW-01-001': 'Email already exists',
+      'CW-10-001': 'Server error, please contact with administrator',
+    }
   },
   about: {
     content: 'This is a simple introduce'

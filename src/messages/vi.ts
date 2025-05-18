@@ -1,5 +1,9 @@
 const messages = {
   home: {
+    phones: 'Điện thoại thông minh',
+    smartsWatches: 'Đồng hồ thông minh',
+    cameras: 'Máy ảnh',
+    headPhone: 'Tai nghe',
     nav: {
       home: "Trang chủ",
       about: "Về chúng tôi",
@@ -18,6 +22,13 @@ const messages = {
       phoneNumber: 'Số điện thoại',
       password: 'Mật khẩu',
       repeatPassword: 'Nhập lại mặt khẩu',
+      login: 'Đăng nhập với tài khoản đã tồn tại'
+    },
+    login: {
+      title: 'Đăng nhập',
+      email: 'Email',
+      password: 'Mật khẩu',
+      register: 'Bạn là người mới? Đăng kí tài khoản ngay tại đây!'
     },
     title: "Chào mừng bạn đến với Clothes World",
     content: "Chọn mọi thứ bạn thích",
@@ -25,6 +36,26 @@ const messages = {
       login: "Đăng nhập",
       register: "Đăng kí"
     },
+  },
+  msg: {
+    requiredInput: {
+      auth: {
+        fullName: "Vui lòng nhập đầy đủ họ tên",
+        emailInvalid: "Email không hợp lệ",
+        emailIsEmpty: "Vui lòng nhập email",
+        passwordIsEmpty: "Vui lòng nhập mật khẩu",
+        passwordShort: "Mật khẩu phải có ít nhất 8 kí tự",
+        repeatPassword: "Vui lòng nhập lại mật khẩu",
+        repeatPasswordNotMatch: "Mật khẩu nhập lại không giống với mật khẩu",
+        gender: "Vui lòng chọn giới tính",
+        dob: "Vui lòng chọn ngày sinh",
+        phoneNumber: "Vui lòng nhập số điện thoại của bạn",
+      }
+    },
+    error: {
+      'CW-01-001': 'Email đã tồn tại',
+      'CW-10-001': 'Lỗi hệ thống, vui lòng liên hệ với quản trị viên',
+    }
   },
   about: {
     content: "Đây chỉ đơn giản là giới thiệu"

@@ -3,6 +3,7 @@ export interface BaseResponse<T> {
       code: number;
       message: string;
       timestamp: string;
+      errorCode?: string
   };
   data?: T;
 }

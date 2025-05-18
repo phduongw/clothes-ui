@@ -9,6 +9,7 @@ import '../globals.css';
 
 import {AR_One_Sans} from 'next/font/google'
 import TanStackProvider from "@/components/common/providers/TanStackProvider";
+import ReduxProvider from "@/components/common/providers/ReduxProvider";
 
 export interface LayoutProps {
     lang: string
@@ -32,12 +33,14 @@ export default async function LocaleLayout({children, params}: Readonly<{
         <TanStackProvider>
             <html lang={lang} className={arOneSans.className}>
                 <body>
-                    <NextIntlClientProvider>
-                        <AntdRegistry>
-                            <Navbar/>
-                            {children}
-                        </AntdRegistry>
-                    </NextIntlClientProvider>
+                    <ReduxProvider>
+                        <NextIntlClientProvider>
+                            <AntdRegistry>
+                                <Navbar/>
+                                {children}
+                            </AntdRegistry>
+                        </NextIntlClientProvider>
+                    </ReduxProvider>
                 </body>
             </html>
         </TanStackProvider>
