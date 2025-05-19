@@ -30,6 +30,12 @@ const messages = {
       password: 'Password',
       register: 'Is this your first time? Sign up for an account right here!'
     },
+    product: {
+      buyBtn: 'Buy now',
+      newArrival: 'New Arrival',
+      bestSeller: 'Best Seller',
+      featured: 'Featured Products',
+    },
     title: 'Welcome to Clothes World',
     content: 'Choose Everything you want',
     auth: {
