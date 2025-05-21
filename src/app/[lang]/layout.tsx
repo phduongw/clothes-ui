@@ -7,7 +7,7 @@ import {AntdRegistry} from "@ant-design/nextjs-registry";
 import Navbar from "@/components/Navbar";
 import '../globals.css';
 
-import {AR_One_Sans} from 'next/font/google'
+import {Mona_Sans} from 'next/font/google'
 import TanStackProvider from "@/components/common/providers/TanStackProvider";
 import ReduxProvider from "@/components/common/providers/ReduxProvider";
 
@@ -15,7 +15,7 @@ export interface LayoutProps {
     lang: string
 }
 
-const arOneSans = AR_One_Sans({
+const arOneSans = Mona_Sans({
     subsets: ['latin', 'vietnamese']
 });
 

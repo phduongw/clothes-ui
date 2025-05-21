@@ -15,7 +15,7 @@ import {useToken} from "@/hooks/useToken";
 
 const Navbar = () => {
     const t = useTranslations('home');
-    const { token } = useSelector<RootState, IAuthState>(state => state.auth);
+    const token = useSelector<RootState, IAuthState>(state => state.auth).token;
     const { clear } = useToken();
     const router = useRouter();
     const dispatch = useDispatch();

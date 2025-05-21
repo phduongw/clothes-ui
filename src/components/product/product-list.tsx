@@ -29,7 +29,7 @@ const ProductList = () => {
 
     return (
         <div className={'w-[1200px]'}>
-            <div className="w-full flex gap-7 pt-12 box-border">
+            <div className="w-full flex gap-7 pt-12 box-border font-medium">
                 {[
                     { key: 'new-arrivals', label: t('newArrival') },
                     { key: 'best-seller', label: t('bestSeller') },

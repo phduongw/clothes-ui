@@ -12,6 +12,7 @@ export interface IRegisterState {
 interface ILoginState {
     accessToken: string;
     expiresIn: string;
+    favoriteList: string[];
 }
 
 export interface IErrorMessages {

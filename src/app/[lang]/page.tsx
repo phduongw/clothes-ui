@@ -8,11 +8,13 @@ import ProductList from "@/components/product/product-list";
 export default function HomePage() {
     const t = useTranslations('home');
 
+    console.log("Main page re-render")
+
     return (
         <>
             <div className={'flex justify-center flex-col items-center bg-[#fafafa]'}>
                 <div className={'w-[1200px] pt-12 pb-16'}>
-                    <h1 className={'mb-8 text-2xl font-medium'}>Browse By Category</h1>
+                    <h1 className={'mb-8 text-2xl font-bold'}>Browse By Category</h1>
                     <div className={'flex justify-around items-center'}>
                         <div className={'flex flex-col gap-2 items-center justify-center w-[200px] h-[150px] bg-[#ededed] rounded-2xl cursor-pointer transition duration-200 ease-in-out hover:bg-[#d1d0d0] hover:scale-110'}>
                             <LuSmartphone className={'text-5xl'} />
