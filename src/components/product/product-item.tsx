@@ -1,3 +1,5 @@
+'use client';
+
 import React, {FC, useEffect, memo} from 'react';
 import Image from "next/image";
 import {CiHeart} from "react-icons/ci";
@@ -15,16 +17,17 @@ import {reviseFavorite} from "@/utils/api/product";
 const ProductItemComponent: FC<{ product: IProductDetails }> = ({ product }) => {
     const t = useTranslations('home.product');
     const dispatch = useDispatch<AppDispatch>();
-    const token = useSelector<RootState, IAuthState>(state => state.auth).token;
-    const favoritesList = useSelector<RootState, IAuthState>(state => state.auth).favoritesList;
+    const { token, favoritesList } = useSelector<RootState, IAuthState>(state => state.auth);
     const image = product.images[0];
 
     const { data, mutate } = useMutation({
         mutationFn: async ({ productId, action }: {productId: string, action: 'add' | 'remove'}) => await reviseFavorite(productId, action, token!)
     });
 
-    const handleRevisingFavorite = (productId: string, action: 'add' | 'remove') => {
-        console.log("Product Id", productId, "Action", action)
+    const handleRevisingFavorite = (e: React.MouseEvent<SVGElement>, productId: string, action: 'add' | 'remove') => {
+        console.log("Product Id", productId, "Action", action);
+        e.preventDefault();
+        e.stopPropagation();
         let response: string[] = [];
         if (token) {
             mutate({ productId, action });
@@ -32,19 +35,19 @@ const ProductItemComponent: FC<{ product: IProductDetails }> = ({ product }) => 
             const favoriteListStorage = localStorage.getItem('favoriteList');
             response = favoriteListStorage ? JSON.parse(favoriteListStorage) as string[] : [];
             if (action === 'add') {
-                response.push(productId)
+                response.push(productId);
             } else {
-                response = response.filter(ele => ele !== productId)
+                response = response.filter(ele => ele !== productId);
             }
 
             localStorage.setItem('favoriteList', JSON.stringify(response));
             dispatch(reviseFavourite(response))
         }
-
     }
 
     useEffect(() => {
         if (data) {
+            console.log("dispatch: ", dispatch)
             dispatch(reviseFavourite(data));
         }
     }, [data, dispatch])
@@ -54,8 +57,8 @@ const ProductItemComponent: FC<{ product: IProductDetails }> = ({ product }) => 
             <div className={'flex flex-col items-center justify-center gap-2 text-center font-medium'}>
                 {
                     favoritesList?.includes(product._id) ?
-                        <IoMdHeart className={'absolute top-4 right-4 text-3xl text-red-500'} onClick={() => handleRevisingFavorite(product._id, 'remove')} /> :
-                        <CiHeart className={'absolute top-4 right-4 text-3xl text-gray-400 cursor-pointer'} onClick={() => handleRevisingFavorite(product._id, 'add')}/>
+                        <IoMdHeart className={'absolute top-4 right-4 text-3xl text-red-500'} onClick={(e) => handleRevisingFavorite(e, product._id, 'remove')} /> :
+                        <CiHeart className={'absolute top-4 right-4 text-3xl text-gray-400 cursor-pointer'} onClick={(e) => handleRevisingFavorite(e, product._id, 'add')}/>
                 }
                 <div className={'w-[150px] h-[180px] flex justify-center items-center'}>
                     <Image src={image} alt={product.name} width={0} height={0} className={'w-[120px] h-auto'} unoptimized priority/>
