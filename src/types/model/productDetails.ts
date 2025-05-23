@@ -1,6 +1,6 @@
 export interface IProductDetails {
     name: string,
-    price: 14000000,
+    price: number,
     typeProduct: string,
     os: string,
     brand: string,

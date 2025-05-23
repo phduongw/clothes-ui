@@ -52,7 +52,7 @@ const ProductList = () => {
             <div className={'w-full flex flex-wrap gap-4 pt-9'}>
                 {isError && <p>{error.message}</p>}
                 {data?.items && data?.items.length > 0 ? data?.items.map(ele => (
-                    <Link key={ele._id} href={'/'}><ProductItem product={ele} /></Link>
+                    <Link key={ele._id} href={`/product/${ele.typeProduct}/${ele.brand}/${ele._id}`}><ProductItem product={ele} /></Link>
                 )) : <p>Have no product</p>}
             </div>
         </div>
