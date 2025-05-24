@@ -18,10 +18,10 @@ const ProductItemComponent: FC<{ product: IProductDetails }> = ({ product }) => 
     const t = useTranslations('home.product');
     const dispatch = useDispatch<AppDispatch>();
     const { token, favoritesList } = useSelector<RootState, IAuthState>(state => state.auth);
-    const image = product.images[0];
+    const image = product.color![0].images[0];
 
     const { data, mutate } = useMutation({
-        mutationFn: async ({ productId, action }: {productId: string, action: 'add' | 'remove'}) => await reviseFavorite(productId, action, token!)
+        mutationFn: async ({ productId, action, accessToken }: {productId: string, action: 'add' | 'remove', accessToken: string}) => await reviseFavorite(productId, action, accessToken)
     });
 
     const handleRevisingFavorite = (e: React.MouseEvent<SVGElement>, productId: string, action: 'add' | 'remove') => {
@@ -30,7 +30,7 @@ const ProductItemComponent: FC<{ product: IProductDetails }> = ({ product }) => 
         e.stopPropagation();
         let response: string[] = [];
         if (token) {
-            mutate({ productId, action });
+            mutate({ productId, action, accessToken: token });
         } else {
             const favoriteListStorage = localStorage.getItem('favoriteList');
             response = favoriteListStorage ? JSON.parse(favoriteListStorage) as string[] : [];

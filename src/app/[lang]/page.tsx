@@ -4,6 +4,7 @@ import {MdOutlineCameraAlt} from "react-icons/md";
 import {FaHeadphonesAlt} from "react-icons/fa";
 import {useTranslations} from "next-intl";
 import ProductList from "@/components/product/product-list";
+import Category from "@/components/product/category";
 
 export default function HomePage() {
     const t = useTranslations('home');
@@ -39,6 +40,7 @@ export default function HomePage() {
             <div className={'w-full flex justify-center items-center'}>
                 <ProductList />
             </div>
+            <Category />
         </>
 
     );

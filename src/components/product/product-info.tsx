@@ -6,13 +6,17 @@ import {usePathname} from "@/i18n/navigation";
 import {useQuery} from "@tanstack/react-query";
 import {fetchProductById} from "@/utils/api/product";
 import {useTranslations} from "next-intl";
+import {GiPlainCircle} from "react-icons/gi";
+import { IColor } from "@/types/model/productDetails";
 
 const ProductInfo: FC<{ productID: string }> = ({ productID }) => {
     const [displayImages, setDisplayImages] = useState<string>('');
+    const [currentSelectedColorProduct, setCurrentSelectedColorProduct] = useState<IColor>();
+    const [currentSelectedStorage, setCurrentSelectedStorage] = useState<number>();
     const t = useTranslations('msg.error');
-    const handleDisplayImage = (url: string) => setDisplayImages(url);
     const path = usePathname();
     console.log("Path: ", path)
+    console.log("Current Storage: ", currentSelectedStorage);
 
     const { data, isPending, isError, error } = useQuery({
         queryKey: ['product', productID],
@@ -23,22 +27,30 @@ const ProductInfo: FC<{ productID: string }> = ({ productID }) => {
         staleTime: 5000
     });
 
+    const handleDisplayImage = (url: string) => setDisplayImages(url);
+    const handleSelectColorProduct = (colorCode: string) => {
+        const selectedColor = data?.color?.find(ele => ele.colorCode === colorCode);
+        setCurrentSelectedColorProduct(selectedColor);
+        setDisplayImages(selectedColor!.images[0])
+    }
+
     useEffect(() => {
         if (data) {
-            setDisplayImages(data.images[0]);
+            setCurrentSelectedColorProduct(data.color![0])
+            setDisplayImages(data.color![0].images[0]);
         }
     }, [data, productID]);
 
     return (
-        <div className={'w-full flex justify-center items-center'}>
+        <div className={'w-full flex justify-center items-center mt-16'}>
             { isError && <p>{t(error.message)}</p> }
             { isPending && <p>Loading....</p> }
             { data && (
                 <div className={'w-[1200px] flex justify-start items-center al mt-12 gap-3'}>
-                    <div className={'flex gap-6'}>
-                        <div className={'flex flex-col w-[50px] h-[300px] gap-2'}>
-                            { data.images.map(ele => (
-                                <button className={`${ ele !== displayImages ? "relative cursor-pointer before:content-[''] before:absolute before:inset-0 before:w-full before:h-full before:bg-gray-200/50" : undefined }`} key={ele} onClick={() => handleDisplayImage(ele)}>
+                    <div className={'flex gap-6 w-[50%]'}>
+                        <div className={'flex flex-col justify-center w-[50px] h-[300px] gap-2'}>
+                            { currentSelectedColorProduct?.images.map(ele => (
+                                <button className={`${ ele !== displayImages ? "relative cursor-pointer before:content-[''] before:absolute before:inset-0 before:w-full before:h-full before:bg-white before:opacity-50" : undefined }`} key={ele} onClick={() => handleDisplayImage(ele)}>
                                     <Image
                                         src={ele}
                                         alt={data.name}
@@ -51,11 +63,32 @@ const ProductInfo: FC<{ productID: string }> = ({ productID }) => {
                                 </button>
                             )) }
                         </div>
-                        <Image src={displayImages} alt={data.name} width={0} height={0} className={'w-[300px] h-auto'} unoptimized priority />
+                        <Image src={displayImages} alt={data.name} width={0} height={0} className={'flex-1 h-auto'} unoptimized priority />
                     </div>
-                    <div>
-                        <div>
-
+                    <div className={'self-start'}>
+                        <div className={'flex flex-col gap-6'}>
+                            <p className={'text-3xl font-bold'}>{data.brand} {data.name}</p>
+                            <p className={'text-2xl font-bold'}>${data.price}</p>
+                            <div className={'flex items-center gap-4 mt-[-12px]'}>
+                                <p>Select Color:</p>
+                                <div className={'flex'}>
+                                    { data.color!.map(ele => <GiPlainCircle
+                                        key={ele.colorCode}
+                                        className={`bg-[${ele.colorCode}] cursor-pointer text-4xl`}
+                                        onClick={() => handleSelectColorProduct(ele.colorCode)}
+                                    />) }
+                                </div>
+                            </div>
+                            <div className={'w-full flex gap-4'}>
+                                { currentSelectedColorProduct?.details.map(detail => (<button
+                                    key={detail.storage}
+                                    disabled={detail.quantity === 0}
+                                    className={`border-1 rounded-[8px] px-7  py-2 cursor-pointer font-medium ${currentSelectedStorage && currentSelectedStorage === detail.storage ? '' : 'border-gray-500 text-gray-500'}`}
+                                    onClick={() => setCurrentSelectedStorage(detail.storage)}
+                                >
+                                    {detail.storage}GB
+                                </button>)) }
+                            </div>
                         </div>
                     </div>
                 </div>

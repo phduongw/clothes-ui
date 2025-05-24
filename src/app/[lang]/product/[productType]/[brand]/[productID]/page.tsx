@@ -8,6 +8,7 @@ interface Props {
 
 const ProductDetails: FC<{ params: Promise<Props> }> = async ({ params }) => {
     const { productID } = await params;
+    console.log("Params: ", params);
     return (
         <ProductInfo productID={productID} />
     );
