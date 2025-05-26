@@ -9,7 +9,6 @@ import Category from "@/components/product/category";
 export default function HomePage() {
     const t = useTranslations('home');
 
-    console.log("Main page re-render")
 
     return (
         <>

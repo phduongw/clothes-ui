@@ -19,9 +19,7 @@ const ProductInfo: FC<{ productID: string }> = ({ productID }) => {
     const [currentSelectedColorProduct, setCurrentSelectedColorProduct] = useState<IColor>();
     const [currentSelectedStorage, setCurrentSelectedStorage] = useState<number>();
     const t = useTranslations('msg.error');
-    const path = usePathname();
-    console.log("Path: ", path)
-    console.log("Current Storage: ", currentSelectedStorage);
+    // const path = usePathname();
 
     const { data, isPending, isError, error } = useQuery({
         queryKey: ['product', productID],
@@ -35,8 +33,10 @@ const ProductInfo: FC<{ productID: string }> = ({ productID }) => {
     const handleDisplayImage = (url: string) => setDisplayImages(url);
     const handleSelectColorProduct = (colorCode: string) => {
         const selectedColor = data?.color?.find(ele => ele.colorCode === colorCode);
-        setCurrentSelectedColorProduct(selectedColor);
-        setDisplayImages(selectedColor!.images[0])
+        if (selectedColor !== currentSelectedColorProduct || !currentSelectedColorProduct) {
+            setCurrentSelectedColorProduct(selectedColor);
+            setDisplayImages(selectedColor!.images[0])
+        }
     }
 
     useEffect(() => {

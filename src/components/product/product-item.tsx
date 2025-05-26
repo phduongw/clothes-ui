@@ -25,7 +25,6 @@ const ProductItemComponent: FC<{ product: IProductDetails }> = ({ product }) => 
     });
 
     const handleRevisingFavorite = (e: React.MouseEvent<SVGElement>, productId: string, action: 'add' | 'remove') => {
-        console.log("Product Id", productId, "Action", action);
         e.preventDefault();
         e.stopPropagation();
         let response: string[] = [];
@@ -47,7 +46,6 @@ const ProductItemComponent: FC<{ product: IProductDetails }> = ({ product }) => 
 
     useEffect(() => {
         if (data) {
-            console.log("dispatch: ", dispatch)
             dispatch(reviseFavourite(data));
         }
     }, [data, dispatch])

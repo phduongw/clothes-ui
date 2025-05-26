@@ -1,6 +1,7 @@
 
 import React, { FC } from 'react';
 import ProductInfo from "@/components/product/product-info";
+import ReviewComponent from "@/components/product/review/review-component";
 
 interface Props {
     productID: string
@@ -8,9 +9,11 @@ interface Props {
 
 const ProductDetails: FC<{ params: Promise<Props> }> = async ({ params }) => {
     const { productID } = await params;
-    console.log("Params: ", params);
     return (
-        <ProductInfo productID={productID} />
+        <div>
+            <ProductInfo productID={productID} />
+            <ReviewComponent />
+        </div>
     );
 };
 

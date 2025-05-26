@@ -65,7 +65,6 @@ export const register = async (formData: FormDataRegisterFields): Promise<IRegis
     }
 
     const data = await response.json() as unknown as BaseResponse<IRegisterState>;
-    console.log("Register response", data)
     if ( data.status.code !== 200 || !data.data) {
         throw new Error(data.status.errorCode);
     }

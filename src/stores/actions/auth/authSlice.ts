@@ -13,7 +13,6 @@ const authSlice = createSlice({
     },
     reducers: {
         setToken: (state: IAuthState, { payload }: { payload: { token: string, favoriteList: string[] } }) => {
-            console.log("Payload: ", payload);
             state.token = payload.token;
             state.favoritesList = payload.favoriteList;
         },
