@@ -1,3 +1,5 @@
+import {IReviewProduct} from "@/types/revview";
+
 export interface IProductDetails {
     _id: string;
     name: string;
@@ -9,7 +11,8 @@ export interface IProductDetails {
     color?: IColor[];
     createdAt?: Date;
     updatedAt?: Date;
-    specification: ISpecification
+    specification: ISpecification;
+    reviews: IReviewProduct;
 }
 
 export interface IColor {
