@@ -12,28 +12,38 @@ import {Link} from "@/i18n/navigation";
 import {useMutation} from "@tanstack/react-query";
 import {addNewReview} from "@/utils/api/product";
 import { queryClient } from "@/utils/http";
+import {Rate} from "antd";
 
 const ReviewComponent: FC<{reviews?: IReviewProduct, productID: string}> = ({ reviews, productID }) => {
     const inputRep = useRef<HTMLInputElement | null>(null);
     const authState = useSelector<RootState, IAuthState>(state => state.auth);
     const [errorReview, setErrorReview] = useState<string | null>(null);
+    const [rate, setRate] = useState<number | null>(null);
 
     const { mutate } = useMutation({
         mutationFn: async (data: IReviewRequest) => await addNewReview(data),
-        onSuccess: () => queryClient.invalidateQueries({
-            queryKey: [productID, 'product']
-        })
+        onSuccess: async () => {
+            inputRep.current!.value = '';
+            setRate(0);
+            await queryClient.invalidateQueries({
+                queryKey: ['product', productID]
+            });
+        }
     })
 
     const handleCreateReview = () => {
         const content = inputRep.current?.value;
         console.log("Content review", content);
-        if (!content || content?.trim()) {
+        if (!content?.trim()) {
             setErrorReview('Content cannot be empty');
             return;
         }
+        if (!rate) {
+            setErrorReview("Rate can't be empty");
+            return;
+        }
 
-        mutate({ productId: productID, content, rating: 1 })
+        mutate({ productId: productID, content, rating: rate })
     }
 
     const reviewsArray = reviews ? (Object.values(reviews).flat() as IReview[]).sort((a, b) => {
@@ -48,7 +58,7 @@ const ReviewComponent: FC<{reviews?: IReviewProduct, productID: string}> = ({ re
                 <p className={'text-xl font-medium'}>Reviews</p>
                 <div>
                     <ReviewOverview reviews={reviews} />
-                    {errorReview && <p>${errorReview}</p>}
+                    {errorReview && <p>{errorReview}</p>}
                     { authState.token ?
                         <form
                             onSubmit={(e) => {
@@ -57,13 +67,13 @@ const ReviewComponent: FC<{reviews?: IReviewProduct, productID: string}> = ({ re
                             }}
                             className="w-full mt-12 flex flex-col gap-3 rounded-[8px]"
                         >
+                            <Rate value={rate ?? 0} onChange={(value) => setRate(value)} />
                             <input
                                 ref={inputRep}
                                 type="text"
                                 className="w-full h-[70px] pl-3 border border-gray-300 focus:outline-none focus:border-gray-400 rounded-[8px]"
                                 placeholder="Leave the comment"
                             />
-
                             <button
                                 type="submit"
                                 className="bg-black text-white px-8 py-2 rounded-[8px] w-fit self-end cursor-pointer hover:bg-black/50"

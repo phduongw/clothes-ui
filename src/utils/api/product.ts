@@ -1,6 +1,7 @@
 import {IProductDetails} from "@/types/model/productDetails";
 import {BaseResponse} from "@/types/BaseResponse";
 import {IReviewRequest} from "@/types/revview";
+import {getAccessToken} from "@/utils/http";
 
 export const fetchProduct = async ({ signal, filter, page, size }: {signal: AbortSignal, filter: string, page: number, size: number} )=>  {
     const resp = await fetch(`http://localhost:8828/product?productFilter=${filter}&page=${page}&size=${size}`, {signal});
@@ -56,7 +57,11 @@ export const addNewReview = async (review: IReviewRequest) => {
     console.log("Call Add new review");
     const resp = await fetch(`http://localhost:8828/review/create`, {
         method: 'POST',
-        body: JSON.stringify(review)
+        body: JSON.stringify(review),
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${getAccessToken()}`
+        }
     });
 
     if (!resp.ok) {
