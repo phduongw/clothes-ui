@@ -31,7 +31,7 @@ const LoginForm = () => {
 
     useEffect(() => {
         if (data) {
-            router.push('/');
+            router.back();
         }
     }, [data, router]);
 

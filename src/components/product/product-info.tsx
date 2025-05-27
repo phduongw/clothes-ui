@@ -140,7 +140,7 @@ const ProductInfo: FC<{ productID: string }> = ({ productID }) => {
                     </div>
                 )}
             </div>
-            <ReviewComponent reviews={data?.reviews}/>
+            <ReviewComponent reviews={data?.reviews} productID={productID}/>
         </div>
 
     );

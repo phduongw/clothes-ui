@@ -2,8 +2,9 @@ export interface IReview {
     name: string;
     content: string;
     rating: number;
-    createdAt?: Date;
-    updatedAt?: Date;
+    createdAt: string;
+    updatedAt?: string;
+    _id: string
 }
 
 export interface IReviewProduct {
@@ -12,4 +13,10 @@ export interface IReviewProduct {
     _3: IReview[];
     _4: IReview[];
     _5: IReview[];
+}
+
+export interface IReviewRequest {
+    productId: string;
+    content: string;
+    rating: number;
 }

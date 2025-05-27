@@ -39,7 +39,6 @@ const ReviewOverview: FC<{ reviews?: IReviewProduct }> = ({ reviews }) => {
     };
 
     const averageScore = reviews ? getAverageRating(reviews) : 0;
-    console.log("Average score", averageScore);
     return (
         <div className={'flex gap-30 mt-8'}>
             <div className={'flex flex-col justify-center gap-3 items-center w-[180px] h-[180px] bg-[#fafafa] rounded-2xl p-4'}>
@@ -52,7 +51,7 @@ const ReviewOverview: FC<{ reviews?: IReviewProduct }> = ({ reviews }) => {
                 { level.map((ele => (
                     <div key={ele.levelName} className={'flex w-full h-[12px]'}>
                         <p className={'min-w-[150px]'}>{ele.levelName}</p>
-                        <div className={`flex-1 h-full bg-amber-50 rounded-2xl relative`}>
+                        <div className={`flex-1 h-full bg-amber-100 rounded-2xl relative`}>
                             <p
                                 className={'absolute h-full bg-amber-500 rounded-2xl'}
                                 style={{width: `${ele.percentRating}%`}}

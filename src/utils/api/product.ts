@@ -1,5 +1,6 @@
 import {IProductDetails} from "@/types/model/productDetails";
 import {BaseResponse} from "@/types/BaseResponse";
+import {IReviewRequest} from "@/types/revview";
 
 export const fetchProduct = async ({ signal, filter, page, size }: {signal: AbortSignal, filter: string, page: number, size: number} )=>  {
     const resp = await fetch(`http://localhost:8828/product?productFilter=${filter}&page=${page}&size=${size}`, {signal});
@@ -49,4 +50,22 @@ export const reviseFavorite = async (productId: string, action: 'add' | 'remove'
     }
 
     return data.data!.favoriteList;
+}
+
+export const addNewReview = async (review: IReviewRequest) => {
+    console.log("Call Add new review");
+    const resp = await fetch(`http://localhost:8828/review/create`, {
+        method: 'POST',
+        body: JSON.stringify(review)
+    });
+
+    if (!resp.ok) {
+        throw new Error('CW-10-001');
+    }
+
+    const data = await resp.json() as BaseResponse<null>;
+    console.log("Data review: ", data)
+    if (data.status.code !== 200) {
+        throw new Error(data.status.errorCode)
+    }
 }
