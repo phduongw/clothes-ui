@@ -5,6 +5,7 @@ import {FaHeadphonesAlt} from "react-icons/fa";
 import {useTranslations} from "next-intl";
 import ProductList from "@/components/product/product-list";
 import Category from "@/components/product/category";
+import ProductDiscount from "@/components/product/product-discount";
 
 export default function HomePage() {
     const t = useTranslations('home');
@@ -40,6 +41,7 @@ export default function HomePage() {
                 <ProductList />
             </div>
             <Category />
+            <ProductDiscount />
         </>
 
     );

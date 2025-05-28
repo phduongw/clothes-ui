@@ -12,11 +12,13 @@ import {Link, useRouter} from "@/i18n/navigation";
 import {RootState} from "@/stores";
 import {authActions, IAuthState} from "@/stores/actions/auth/authSlice";
 import {useToken} from "@/hooks/useToken";
+import {useFavorite} from "@/hooks/useFavorite";
 
 const Navbar = () => {
     const t = useTranslations('home');
     const token = useSelector<RootState, IAuthState>(state => state.auth).token;
     const { clear } = useToken();
+    const { get } = useFavorite();
     const router = useRouter();
     const dispatch = useDispatch();
     const handleLogout = () => {
@@ -42,7 +44,10 @@ const Navbar = () => {
                     </div>
 
                     <div className='flex gap-6 text-black font-medium h-full items-center text-2xl'>
-                        <Link href={'/'} ><CiHeart /></Link>
+                        <div className={'relative'}>
+                            <Link href={'/'} ><CiHeart /></Link>
+                            <p className={'absolute text-[10px]/[14px] rounded-full top-[-4px] right-[-4px] h-[14px] w-[14px] bg-black/80 text-white text-center '}>{get?.length ?? 0}</p>
+                        </div>
                         <Link href={'/'} ><PiShoppingCartLight /></Link>
                         { token ? <CiLogout onClick={handleLogout} className='cursor-pointer' /> : <Link href={'/auth?mode=login'} ><PiUserCircleThin /></Link> }
                     </div>

@@ -3,8 +3,22 @@ import {BaseResponse} from "@/types/BaseResponse";
 import {IReviewRequest} from "@/types/revview";
 import {getAccessToken} from "@/utils/http";
 
-export const fetchProduct = async ({ signal, filter, page, size }: {signal: AbortSignal, filter: string, page: number, size: number} )=>  {
-    const resp = await fetch(`http://localhost:8828/product?productFilter=${filter}&page=${page}&size=${size}`, {signal});
+export const fetchProduct = async ({ signal, filter, page, size }: {signal: AbortSignal, filter?: string, page: number, size: number} )=>  {
+    let url = 'http://localhost:8828/product?';
+    if (filter) {
+        url += `productFilter=${filter}&`;
+    }
+
+    if (!page) {
+        page = 1
+    }
+
+    if (!size) {
+        size = 10;
+    }
+
+    url += `page=${page}&size=${size}`;
+    const resp = await fetch(url, {signal});
     if (!resp.ok) {
         throw new Error('CW-10-001');
     }

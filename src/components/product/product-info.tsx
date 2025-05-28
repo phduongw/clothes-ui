@@ -2,9 +2,9 @@
 
 import React, {FC, useEffect, useState} from 'react';
 import Image from "next/image";
-import {usePathname} from "@/i18n/navigation";
+import {Link, usePathname} from "@/i18n/navigation";
 import {useQuery} from "@tanstack/react-query";
-import {fetchProductById} from "@/utils/api/product";
+import {fetchProduct, fetchProductById} from "@/utils/api/product";
 import {useTranslations} from "next-intl";
 import {GiBattery75, GiCpu, GiPlainCircle} from "react-icons/gi";
 import { IColor } from "@/types/model/productDetails";
@@ -14,12 +14,22 @@ import {LuCpu} from "react-icons/lu";
 import {IoIosCamera} from "react-icons/io";
 import {IoCameraReverseSharp} from "react-icons/io5";
 import ReviewComponent from "@/components/product/review/review-component";
+import {LoadingOutlined} from "@ant-design/icons";
+import {notification, Spin} from "antd";
+import ProductItem from "@/components/product/product-item";
+import {useFavorite} from "@/hooks/useFavorite";
 
 const ProductInfo: FC<{ productID: string }> = ({ productID }) => {
     const [displayImages, setDisplayImages] = useState<string>('');
     const [currentSelectedColorProduct, setCurrentSelectedColorProduct] = useState<IColor>();
     const [currentSelectedStorage, setCurrentSelectedStorage] = useState<number>();
     const t = useTranslations('msg.error');
+    const [api, contextHolder] = notification.useNotification();
+    const { modify, get } = useFavorite();
+    let action: 'add' | 'remove' = 'add';
+    if (get?.includes(productID)) {
+        action = 'remove';
+    }
     // const path = usePathname();
 
     const { data, isPending, isError, error } = useQuery({
@@ -31,12 +41,43 @@ const ProductInfo: FC<{ productID: string }> = ({ productID }) => {
         staleTime: 5000
     });
 
+    let relatedProductContent;
+    const {data: relatedProduct, isPending: relatedProductLoading, error: relatedProductError, isError: relatedProductIsError} = useQuery({
+        queryKey: ['products', {page: 1, size: 4}],
+        queryFn: async ({ signal, queryKey}) => {
+            const {page, size} = queryKey[1] as { page: number, size: number };
+            return await fetchProduct({signal, page, size})
+        },
+        staleTime: 5000
+    });
+
+    if (relatedProductLoading) {
+        relatedProductContent = <Spin indicator={<LoadingOutlined style={{ fontSize: 48 }} spin />} />
+    }
+
+    if (relatedProductIsError) {
+        api.error({
+            message: relatedProductError.message,
+            description: `Related Product cannot show`,
+            placement: 'topRight',
+            duration: 2
+        });
+
+        relatedProductContent = null;
+    }
+
+    if (relatedProduct) {
+        relatedProductContent = relatedProduct.items.map(ele => (
+            <Link key={ele._id} href={`/product/${ele.typeProduct}/${ele.brand}/${ele._id}`}><ProductItem product={ele} /></Link>
+        ))
+    }
+
     const handleDisplayImage = (url: string) => setDisplayImages(url);
     const handleSelectColorProduct = (colorCode: string) => {
         const selectedColor = data?.color?.find(ele => ele.colorCode === colorCode);
         if (selectedColor !== currentSelectedColorProduct || !currentSelectedColorProduct) {
             setCurrentSelectedColorProduct(selectedColor);
-            setDisplayImages(selectedColor!.images[0])
+            setDisplayImages(selectedColor!.images[0]);
         }
     }
 
@@ -52,6 +93,7 @@ const ProductInfo: FC<{ productID: string }> = ({ productID }) => {
             <div className={'w-full flex justify-center items-center mt-16'}>
                 {isError && <p>{t(error.message)}</p>}
                 {isPending && <p>Loading....</p>}
+                { contextHolder }
                 {data && (
                     <div className={'w-[1200px] flex justify-start items-center al mt-12 gap-3'}>
                         <div className={'flex gap-6 w-[50%]'}>
@@ -129,10 +171,10 @@ const ProductInfo: FC<{ productID: string }> = ({ productID }) => {
                                 </SpecificationItem>
                             </div>
                             <div className={'flex mt-8 w-[566px] gap-4'}>
-                                <button className={'flex-1 rounded-[8px] border-1'}>
+                                <button className={'flex-1 rounded-[8px] border-1 cursor-pointer'} onClick={(e) => modify.fn(e, productID, action)}>
                                     Add to Wishlist
                                 </button>
-                                <button className={'flex-1 rounded-[8px] py-4 bg-[#000] text-white'}>
+                                <button className={'flex-1 rounded-[8px] py-4 bg-[#000] text-white cursor-pointer'}>
                                     Add to Cart
                                 </button>
                             </div>
@@ -140,7 +182,12 @@ const ProductInfo: FC<{ productID: string }> = ({ productID }) => {
                     </div>
                 )}
             </div>
-            <ReviewComponent reviews={data?.reviews} productID={productID}/>
+            <ReviewComponent reviews={data?.reviews} productID={productID} />
+            <div className={'w-full flex justify-center items-center mt-16'}>
+                <div className={'w-[1200px] flex gap-8'}>
+                    { relatedProductContent }
+                </div>
+            </div>
         </div>
 
     );
