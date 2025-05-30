@@ -43,9 +43,12 @@ const ProductDiscount = () => {
     }
 
     return (
-        <div>
-            { contextHolder }
-            {content}
+        <div className={'flex flex-col gap-8 mt-6 justify-center items-center w-screen'}>
+            <div className={'w-[1200px] max-lg:w-screen max-sm:flex max-sm:justify-center max-sm:mt-8 max-sm:flex-col max-sm:items-center'}>
+                <p className={'self-start max-sm:self-start text-2xl font-bold max-sm:mb-8 max-sm:ml-6'}>Discounts up to -50%</p>
+                { contextHolder }
+                { content }
+            </div>
         </div>
     );
 };

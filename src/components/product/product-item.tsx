@@ -14,7 +14,7 @@ const ProductItem: FC<{ product: IProductDetails }> = ({ product }) => {
     const { modify, get } = useFavorite();
 
     return (
-        <div className={'flex flex-col items-center justify-around relative bg-[#F6F6F6] w-[280px] h-[400px] py-4 px-10 rounded-2xl'}>
+        <div className={'flex flex-col items-center justify-around relative bg-[#F6F6F6] w-[280px] h-[400px] py-4 px-10 rounded-2xl max-sm:w-[48vh]'}>
             <div className={'flex flex-col items-center justify-center gap-2 text-center font-medium'}>
                 {
                     get?.includes(product._id) ?

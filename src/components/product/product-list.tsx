@@ -28,8 +28,8 @@ const ProductList = () => {
     }
 
     return (
-        <div className={'w-[1200px]'}>
-            <div className="w-full flex gap-7 pt-12 box-border font-medium">
+        <div className={'w-[1200px] max-sm:w-screen'}>
+            <div className="w-full flex max-sm:justify-center gap-7 pt-12 box-border font-medium">
                 {[
                     { key: 'new-arrivals', label: t('newArrival') },
                     { key: 'best-seller', label: t('bestSeller') },
@@ -49,7 +49,7 @@ const ProductList = () => {
                 ))}
             </div>
 
-            <div className={'w-full flex flex-wrap gap-4 pt-9'}>
+            <div className={'w-full max-sm:w-screen max-sm:justify-center flex flex-wrap gap-4 pt-9 px-4'}>
                 {isError && <p>{error.message}</p>}
                 {data?.items && data?.items.length > 0 ? data?.items.map(ele => (
                     <Link key={ele._id} href={`/product/${ele.typeProduct}/${ele.brand}/${ele._id}`}><ProductItem product={ele} /></Link>
