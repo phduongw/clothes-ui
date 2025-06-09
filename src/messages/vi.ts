@@ -30,12 +30,6 @@ const messages = {
       password: 'Mật khẩu',
       register: 'Bạn là người mới? Đăng kí tài khoản ngay tại đây!'
     },
-    product: {
-      buyBtn: 'Mua ngay',
-      newArrival: 'Sản phẩm mới về',
-      bestSeller: 'Sản phẩm bán chạy',
-      featured: 'Sản phẩm sắp ra mắt',
-    },
     title: "Chào mừng bạn đến với Clothes World",
     content: "Chọn mọi thứ bạn thích",
     auth: {

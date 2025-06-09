@@ -20,7 +20,7 @@ const LoginForm = () => {
     const { data, mutate, isPending, isError, error } = useMutation({
         mutationFn: async (data: FormDataLoginFields) => await login(data),
         onSuccess: (data) => {
-            dispatch(authActions.setToken({ token: data!.accessToken, favoriteList: data!.favoriteList }));
+            dispatch(authActions.setToken(data!.accessToken));
             set(data!.accessToken)
         }
     });
@@ -31,7 +31,7 @@ const LoginForm = () => {
 
     useEffect(() => {
         if (data) {
-            router.back();
+            router.push('/');
         }
     }, [data, router]);
 
