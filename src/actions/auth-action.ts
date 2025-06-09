@@ -34,7 +34,7 @@ export interface FormDataLoginFields {
     password: string;
 }
 
-const ipUrl = `${process.env.IP_HOST}:${process.env.PORT_HOST}`;
+const ipUrl = `${process.env.NEXT_PUBLIC_IP_HOST}:${process.env.NEXT_PUBLIC_PORT_HOST}`;
 
 export const register = async (formData: FormDataRegisterFields): Promise<IRegisterState> => {
     const {
