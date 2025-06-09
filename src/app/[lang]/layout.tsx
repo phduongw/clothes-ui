@@ -7,17 +7,22 @@ import {AntdRegistry} from "@ant-design/nextjs-registry";
 import Navbar from "@/components/Navbar";
 import '../globals.css';
 
-import {AR_One_Sans} from 'next/font/google'
+import {Mona_Sans} from 'next/font/google'
 import TanStackProvider from "@/components/common/providers/TanStackProvider";
 import ReduxProvider from "@/components/common/providers/ReduxProvider";
+import Footer from "@/components/Footer";
 
 export interface LayoutProps {
     lang: string
 }
 
-const arOneSans = AR_One_Sans({
+const arOneSans = Mona_Sans({
     subsets: ['latin', 'vietnamese']
 });
+
+export const metadata = {
+    title: 'Cyper'
+};
 
 export default async function LocaleLayout({children, params}: Readonly<{
     children: ReactNode,
@@ -38,6 +43,7 @@ export default async function LocaleLayout({children, params}: Readonly<{
                             <AntdRegistry>
                                 <Navbar/>
                                 {children}
+                                <Footer />
                             </AntdRegistry>
                         </NextIntlClientProvider>
                     </ReduxProvider>
