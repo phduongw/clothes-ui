@@ -7,7 +7,7 @@ import {PagingResponse} from "@/types/paging-response";
 
 export type PagingProductResponse = PagingResponse & { items: IProductDetails[] }
 
-const ipUrl = `${process.env.IP_HOST}:${process.env.PORT_HOST}`;
+const ipUrl = `${process.env.NEXT_PUBLIC_IP_HOST}:${process.env.NEXT_PUBLIC_PORT_HOST}`;
 
 export const fetchProduct = async ({ signal, filter, page, size }: {signal: AbortSignal, filter?: string, page: number, size: number} )=>  {
     let url = `${ipUrl}/product?`;
